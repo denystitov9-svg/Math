@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fff9ed" />
+    <title>Number Garden | Math Club</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fredoka:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="client.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell signed-out" id="appShell" data-theme="sunny">
+      <header class="topbar" id="appHeader">
+        <a class="brand" href="#practice" aria-label="Number Garden home">
+          <span class="brand-mark" aria-hidden="true"
+            ><span>+</span><span>×</span></span
+          >
+          <span class="brand-copy"
+            ><strong>number garden</strong
+            ><small>little steps, big brains</small></span
+          >
+        </a>
+        <nav class="main-nav" aria-label="Main navigation">
+          <button class="nav-link is-active" data-view="practice" type="button">
+            <span aria-hidden="true">✳</span> Practice
+          </button>
+          <button class="nav-link" data-view="shop" type="button">
+            <span aria-hidden="true">◈</span> Shop
+          </button>
+          <button class="nav-link" data-view="admin" type="button">
+            <span aria-hidden="true">▤</span> Admin
+          </button>
+        </nav>
+        <div class="account-tools">
+          <div class="coin-pill" id="coinDisplay" aria-label="Your coins">
+            <span class="coin-icon" aria-hidden="true">✦</span>
+            <span id="coinCount">0</span>
+            <span class="coin-word">coins</span>
+          </div>
+          <span id="accountName" class="account-name"></span>
+          <button id="signOutButton" class="sign-out-button" type="button">
+            Sign out
+          </button>
+        </div>
+      </header>
+
+      <main>
+        <section class="auth-view" id="authView" aria-labelledby="authTitle">
+          <div class="auth-welcome">
+            <p class="eyebrow">
+              <span class="eyebrow-dot"></span> YOUR DAILY BRAIN GARDEN
+            </p>
+            <h1 id="authTitle">A little math goes a long way.</h1>
+            <p class="welcome-copy">
+              Sign in to pick up where you left off, or make a learner account
+              to get started.
+            </p>
+            <div class="auth-illustration" aria-hidden="true">
+              <span class="auth-sun"></span><span class="auth-hill"></span>
+              <span class="auth-flower auth-flower-a">✿</span
+              ><span class="auth-flower auth-flower-b">✿</span>
+              <span class="auth-math auth-math-a">+</span
+              ><span class="auth-math auth-math-b">×</span>
+            </div>
+          </div>
+          <div class="auth-panel">
+            <div class="auth-tabs" role="tablist" aria-label="Account options">
+              <button
+                type="button"
+                class="auth-tab is-active"
+                data-auth-mode="login"
+                role="tab"
+                aria-selected="true"
+              >
+                Sign in
+              </button>
+              <button
+                type="button"
+                class="auth-tab"
+                data-auth-mode="register"
+                role="tab"
+                aria-selected="false"
+              >
+                New learner
+              </button>
+            </div>
+            <form id="loginForm" class="auth-form">
+              <label for="loginUsername">Username</label>
+              <input
+                id="loginUsername"
+                name="username"
+                type="text"
+                autocomplete="username"
+                minlength="3"
+                maxlength="20"
+                required
+              />
+              <label for="loginPassword">Password</label>
+              <input
+                id="loginPassword"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                required
+              />
+              <button class="auth-submit" type="submit">
+                Sign in <span aria-hidden="true">↗</span>
+              </button>
+            </form>
+            <form id="registerForm" class="auth-form is-hidden">
+              <label for="registerNickname">Nickname</label>
+              <input
+                id="registerNickname"
+                name="nickname"
+                type="text"
+                maxlength="18"
+                autocomplete="nickname"
+                required
+              />
+              <label for="registerUsername">Username</label>
+              <input
+                id="registerUsername"
+                name="username"
+                type="text"
+                minlength="3"
+                maxlength="20"
+                autocomplete="username"
+                pattern="[A-Za-z0-9][A-Za-z0-9._-]{2,19}"
+                required
+              />
+              <label for="registerPassword">Password</label>
+              <input
+                id="registerPassword"
+                name="password"
+                type="password"
+                minlength="8"
+                maxlength="72"
+                autocomplete="new-password"
+                required
+              />
+              <button class="auth-submit" type="submit">
+                Create learner account <span aria-hidden="true">↗</span>
+              </button>
+            </form>
+            <p
+              id="authFeedback"
+              class="auth-feedback"
+              role="status"
+              aria-live="polite"
+            ></p>
+            <p class="auth-note">
+              Admin accounts are created by the person running the server.
+            </p>
+          </div>
+        </section>
+
+        <section
+          class="view practice-view"
+          id="practiceView"
+          aria-labelledby="pageTitle"
+        >
+          <div class="welcome-row">
+            <div>
+              <p class="eyebrow">
+                <span class="eyebrow-dot"></span> YOUR DAILY BRAIN GARDEN
+              </p>
+              <h1 id="pageTitle">Ready to grow?</h1>
+              <p class="welcome-copy">
+                A little math practice goes a long way.
+              </p>
+              <div class="nickname-row">
+                <span
+                  >Playing as
+                  <strong id="nicknameDisplay">Garden friend</strong></span
+                >
+                <button
+                  id="editNicknameButton"
+                  class="edit-name-button"
+                  type="button"
+                  title="Change nickname"
+                  aria-label="Change nickname"
+                  aria-expanded="false"
+                >
+                  ✎
+                </button>
+              </div>
+              <form
+                id="nicknameForm"
+                class="nickname-form is-hidden"
+                novalidate
+              >
+                <label class="visually-hidden" for="nicknameInput"
+                  >Choose a nickname</label
+                >
+                <input
+                  id="nicknameInput"
+                  type="text"
+                  maxlength="18"
+                  autocomplete="off"
+                  placeholder="Choose a nickname"
+                />
+                <button type="submit">Save name</button>
+                <span
+                  id="nicknameFeedback"
+                  role="status"
+                  aria-live="polite"
+                ></span>
+              </form>
+            </div>
+            <div class="sun-doodle" aria-hidden="true">
+              <svg viewBox="0 0 124 108" role="img">
+                <path
+                  d="M34 79c-8-7-11-18-8-28 3-11 13-18 25-18 4-13 18-21 32-17 11 3 19 13 19 25 12 3 20 15 17 27-2 12-13 20-25 20H48c-5 0-10-3-14-9Z"
+                  fill="#d5efdc"
+                  stroke="#1c453c"
+                  stroke-width="3"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M52 56h5m21 0h5M60 69c5 5 11 5 16 0"
+                  fill="none"
+                  stroke="#1c453c"
+                  stroke-width="3.5"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="m17 18 5 8m81 63 8 4M12 58h9m83-39 6-7m-46 83v-8"
+                  fill="none"
+                  stroke="#e7835c"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M89 25 76 41h10l-8 13 19-20H86l3-9Z"
+                  fill="#f2bd48"
+                  stroke="#1c453c"
+                  stroke-width="2"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+
+          <div class="practice-layout">
+            <section class="practice-main" aria-label="Math practice">
+              <div class="control-row">
+                <fieldset class="grade-picker">
+                  <legend>Choose your grade</legend>
+                  <div class="segmented" id="gradePicker">
+                    <button type="button" data-grade="3" aria-pressed="false">
+                      Grade 3
+                    </button>
+                    <button type="button" data-grade="4" aria-pressed="true">
+                      Grade 4
+                    </button>
+                    <button type="button" data-grade="5" aria-pressed="false">
+                      Grade 5
+                    </button>
+                  </div>
+                </fieldset>
+                <span class="grade-note" id="gradeNote">Nice and steady</span>
+              </div>
+
+              <fieldset class="operation-picker">
+                <legend>Pick a practice</legend>
+                <div class="operation-list" id="operationPicker">
+                  <button
+                    type="button"
+                    class="operation-button is-selected"
+                    data-operation="mixed"
+                    aria-pressed="true"
+                  >
+                    <span class="op-symbol">±</span><span>Mix it up</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="operation-button"
+                    data-operation="add"
+                    aria-pressed="false"
+                  >
+                    <span class="op-symbol">+</span><span>Add</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="operation-button"
+                    data-operation="subtract"
+                    aria-pressed="false"
+                  >
+                    <span class="op-symbol">−</span><span>Subtract</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="operation-button"
+                    data-operation="multiply"
+                    aria-pressed="false"
+                  >
+                    <span class="op-symbol">×</span><span>Multiply</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="operation-button"
+                    data-operation="divide"
+                    aria-pressed="false"
+                  >
+                    <span class="op-symbol">÷</span><span>Divide</span>
+                  </button>
+                </div>
+              </fieldset>
+
+              <div class="question-card" id="questionCard">
+                <div class="question-topline">
+                  <span class="round-label" id="roundLabel"
+                    ><span class="round-spark">✦</span> YOUR NEXT
+                    CHALLENGE</span
+                  >
+                  <span class="question-number" id="questionNumber">01</span>
+                </div>
+                <div class="question-content">
+                  <div class="question-art" aria-hidden="true">
+                    <span class="art-leaf leaf-one"></span
+                    ><span class="art-leaf leaf-two"></span>
+                    <span class="art-stem"></span
+                    ><span class="art-flower">✿</span>
+                    <span class="art-spark art-spark-one">✦</span
+                    ><span class="art-spark art-spark-two">·</span>
+                  </div>
+                  <p class="question-text" id="questionText" aria-live="polite">
+                    18 + 24 = ?
+                  </p>
+                </div>
+                <form id="answerForm" class="answer-form">
+                  <label class="visually-hidden" for="answerInput"
+                    >Your answer</label
+                  >
+                  <input
+                    id="answerInput"
+                    name="answer"
+                    type="number"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    placeholder="Your answer"
+                    required
+                  />
+                  <button class="check-button" type="submit">
+                    <span>Check answer</span><span aria-hidden="true">↗</span>
+                  </button>
+                </form>
+                <p
+                  class="feedback"
+                  id="feedback"
+                  role="status"
+                  aria-live="polite"
+                >
+                  You’ve got this. Take your time!
+                </p>
+              </div>
+              <p class="gentle-note">
+                <span aria-hidden="true">♡</span> Mistakes help your brain grow.
+                A smaller warm-up is always waiting.
+              </p>
+            </section>
+
+            <aside class="progress-panel" aria-label="Your progress">
+              <div class="progress-heading">
+                <span class="progress-kicker">YOUR GARDEN</span>
+                <span class="tiny-flower" aria-hidden="true">✿</span>
+              </div>
+              <h2>Look at you go!</h2>
+              <div class="stat-row">
+                <div class="stat-icon streak-icon" aria-hidden="true">↗</div>
+                <div>
+                  <span class="stat-label">Best streak</span
+                  ><strong><span id="streakCount">0</span> in a row</strong>
+                </div>
+              </div>
+              <div class="stat-row">
+                <div class="stat-icon solved-icon" aria-hidden="true">✓</div>
+                <div>
+                  <span class="stat-label">Problems solved</span
+                  ><strong id="solvedCount">0</strong>
+                </div>
+              </div>
+              <div class="garden-divider"></div>
+              <div class="garden-progress-title">
+                <span>Garden path</span><span id="pathProgressText">0 / 5</span>
+              </div>
+              <div
+                class="path-track"
+                aria-label="Progress toward your next garden badge"
+              >
+                <span id="pathProgress"></span>
+              </div>
+              <p class="path-caption" id="pathCaption">
+                Solve 5 problems to grow your first flower.
+              </p>
+              <div class="mini-garden" aria-hidden="true">
+                <span class="garden-ground"></span
+                ><span class="garden-flower flower-a">✿</span
+                ><span class="garden-flower flower-b">✿</span
+                ><span class="garden-flower flower-c">✿</span
+                ><span class="garden-leaf leaf-a"></span
+                ><span class="garden-leaf leaf-b"></span>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="view shop-view is-hidden"
+          id="shopView"
+          aria-labelledby="shopTitle"
+        >
+          <div class="shop-heading">
+            <div>
+              <p class="eyebrow">
+                <span class="eyebrow-dot"></span> YOUR LITTLE REWARD SPOT
+              </p>
+              <h1 id="shopTitle">Make it your own.</h1>
+              <p class="welcome-copy">
+                Spend your garden coins on a fresh new look.
+              </p>
+            </div>
+            <div class="shop-balance">
+              <span class="coin-icon" aria-hidden="true">✦</span
+              ><strong id="shopCoinCount">0</strong><span>coins to spend</span>
+            </div>
+          </div>
+          <div class="shop-subhead">
+            <div>
+              <h2>Backgrounds</h2>
+              <p>Pick a place to practice.</p>
+            </div>
+            <span class="shop-item-count" id="themeCount">0 / 6 collected</span>
+          </div>
+          <div class="theme-grid" id="themeGrid"></div>
+          <p
+            id="shopFeedback"
+            class="shop-feedback"
+            role="status"
+            aria-live="polite"
+          ></p>
+          <p class="shop-footnote">
+            <span aria-hidden="true">✧</span> Keep practicing to earn more
+            coins. Your collection stays saved on this device.
+          </p>
+        </section>
+
+        <section
+          class="view admin-view is-hidden"
+          id="adminView"
+          aria-labelledby="adminTitle"
+        >
+          <div class="admin-heading">
+            <div>
+              <p class="eyebrow">
+                <span class="eyebrow-dot"></span> ADMIN DASHBOARD
+              </p>
+              <h1 id="adminTitle">Your learners.</h1>
+              <p class="welcome-copy">
+                Progress and coin balances for every learner account.
+              </p>
+            </div>
+            <span class="admin-grade-badge" id="learnerCount">0 learners</span>
+          </div>
+          <div class="admin-toolbar">
+            <label class="visually-hidden" for="learnerSearch"
+              >Search learners</label
+            >
+            <input
+              id="learnerSearch"
+              type="search"
+              placeholder="Find a learner"
+            />
+          </div>
+          <div id="learnerList" class="learner-list"></div>
+          <section class="admin-security">
+            <details>
+              <summary>Change admin password</summary>
+              <form id="changePasswordForm" class="password-change-form">
+                <label for="currentAdminPassword">Current password</label>
+                <input
+                  id="currentAdminPassword"
+                  name="currentPassword"
+                  type="password"
+                  autocomplete="current-password"
+                  required
+                />
+                <label for="newAdminPassword">New password</label>
+                <input
+                  id="newAdminPassword"
+                  name="newPassword"
+                  type="password"
+                  minlength="8"
+                  maxlength="72"
+                  autocomplete="new-password"
+                  required
+                />
+                <button type="submit">Update password</button>
+              </form>
+              <p id="passwordFeedback" role="status" aria-live="polite"></p>
+            </details>
+          </section>
+          <p class="local-admin-note">
+            Learner accounts and progress are stored on the server. Admin tools
+            require an admin account.
+          </p>
+        </section>
+      </main>
+      <footer class="site-footer">
+        <span>NUMBER GARDEN</span
+        ><span
+          >Growing one answer at a time <span aria-hidden="true">✿</span></span
+        >
+      </footer>
+    </div>
+  </body>
+</html>
